@@ -1,0 +1,264 @@
+/* =========================================================
+   advanced.css — Advanced CSS3 & Responsive Architecture
+   Link AFTER your existing stylesheet on every page:
+   <link rel="stylesheet" href="css/advanced.css">
+   Uses element selectors (header, nav, main, section, article,
+   footer) so it works with your existing semantic HTML.
+   ========================================================= */
+
+/* ---------- 1. CUSTOM PROPERTIES: light / dark theme ---------- */
+:root {
+  --bg: #f6f8fb;
+  --surface: #ffffff;
+  --surface-2: #eef2f8;
+  --text: #16202e;
+  --text-muted: #4d5b70;
+  --accent: #2557d6;
+  --accent-contrast: #ffffff;
+  --accent-soft: #dbe6ff;
+  --border: #d5dde9;
+  --shadow: 0 6px 24px rgb(22 32 46 / 0.08);
+
+  --font-body: system-ui, -apple-system, "Segoe UI", Roboto, sans-serif;
+  --font-mono: ui-monospace, "SF Mono", Consolas, monospace;
+
+  /* fluid type scale */
+  --step-0: clamp(1rem, 0.95rem + 0.25vw, 1.125rem);
+  --step-1: clamp(1.25rem, 1.1rem + 0.7vw, 1.6rem);
+  --step-2: clamp(1.6rem, 1.3rem + 1.5vw, 2.4rem);
+  --step-3: clamp(2.2rem, 1.6rem + 3vw, 3.8rem);
+
+  --space: clamp(1rem, 0.8rem + 1vw, 2rem);
+  --radius: 14px;
+  --ease: cubic-bezier(0.2, 0.7, 0.2, 1);
+  --max-width: 72rem;
+}
+
+/* dark: follows the OS unless the user picks a theme manually */
+@media (prefers-color-scheme: dark) {
+  :root:not([data-theme="light"]) {
+    --bg: #0e1420;
+    --surface: #161e2e;
+    --surface-2: #1d2740;
+    --text: #e8eef9;
+    --text-muted: #a3b1c9;
+    --accent: #7fa6ff;
+    --accent-contrast: #0e1420;
+    --accent-soft: #24335a;
+    --border: #2a3652;
+    --shadow: 0 6px 24px rgb(0 0 0 / 0.4);
+  }
+}
+:root[data-theme="dark"] {
+  --bg: #0e1420;
+  --surface: #161e2e;
+  --surface-2: #1d2740;
+  --text: #e8eef9;
+  --text-muted: #a3b1c9;
+  --accent: #7fa6ff;
+  --accent-contrast: #0e1420;
+  --accent-soft: #24335a;
+  --border: #2a3652;
+  --shadow: 0 6px 24px rgb(0 0 0 / 0.4);
+}
+
+/* ---------- 2. BASE / RESET ---------- */
+*, *::before, *::after { box-sizing: border-box; }
+html { scroll-behavior: smooth; color-scheme: light dark; }
+:root[data-theme="light"] { color-scheme: light; }
+:root[data-theme="dark"] { color-scheme: dark; }
+
+body {
+  margin: 0;
+  font-family: var(--font-body);
+  font-size: var(--step-0);
+  line-height: 1.65;
+  color: var(--text);
+  background: var(--bg);
+  transition: background-color 0.3s var(--ease), color 0.3s var(--ease);
+}
+img, video, svg { max-width: 100%; height: auto; display: block; }
+a { color: var(--accent); text-underline-offset: 0.2em; }
+:focus-visible { outline: 3px solid var(--accent); outline-offset: 3px; border-radius: 4px; }
+h1, h2, h3 { line-height: 1.2; text-wrap: balance; }
+h1 { font-size: var(--step-3); }
+h2 { font-size: var(--step-2); }
+h3 { font-size: var(--step-1); }
+
+.skip-link:not(:focus) { /* keeps your existing skip link hidden until focused */
+  position: absolute; left: -9999px;
+}
+
+/* ---------- 3. CSS GRID: page-level layout ---------- */
+body {
+  display: grid;
+  grid-template-columns: minmax(var(--space), 1fr) minmax(0, var(--max-width)) minmax(var(--space), 1fr);
+  grid-template-rows: auto 1fr auto;
+}
+body > header, body > main, body > footer { grid-column: 1 / -1; }
+body > main {
+  display: grid;
+  grid-template-columns: subgrid;
+  row-gap: calc(var(--space) * 2);
+  padding-block: calc(var(--space) * 2);
+}
+body > main > * { grid-column: 2; }
+
+/* Grid: skills as an auto-fit responsive grid */
+main ul:has(> li > h1, > li > h2, > li > h3, > li > span),
+.skills, .skills-list {
+  list-style: none;
+  padding: 0;
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(9.5rem, 1fr));
+  gap: 0.9rem;
+}
+main ul:has(> li > h1, > li > h2, > li > h3) > li {
+  background: var(--surface);
+  border: 1px solid var(--border);
+  border-radius: var(--radius);
+  padding: 0.8rem 1rem;
+  box-shadow: var(--shadow);
+}
+main ul:has(> li > h1, > li > h2, > li > h3) > li > * { margin: 0; font-size: var(--step-0); font-family: var(--font-mono); }
+
+/* Grid: "accessibility-first approach" cards (2D layout, spans) */
+main section:has(> article), main section:has(> div > article) {
+  display: grid;
+  grid-template-columns: 1fr;
+  gap: var(--space);
+}
+main article {
+  background: var(--surface);
+  border: 1px solid var(--border);
+  border-radius: var(--radius);
+  padding: var(--space);
+  box-shadow: var(--shadow);
+  transition: transform 0.25s var(--ease), box-shadow 0.25s var(--ease);
+}
+main article:hover { transform: translateY(-4px) rotate(-0.3deg); }
+main article h3 { margin-top: 0; }
+
+/* Projects / generic card collections */
+.projects, .project-list, .card-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(min(100%, 18rem), 1fr));
+  gap: var(--space);
+}
+
+/* ---------- 4. FLEXBOX: component alignment ---------- */
+body > header {
+  position: sticky; top: 0; z-index: 100;
+  display: flex; flex-wrap: wrap; align-items: center; justify-content: space-between;
+  gap: 0.75rem;
+  padding: 0.75rem var(--space);
+  background: color-mix(in srgb, var(--surface) 80%, transparent);
+  backdrop-filter: blur(12px) saturate(140%);
+  border-bottom: 1px solid var(--border);
+}
+body > header nav ul {
+  display: flex; flex-direction: column; gap: 0.25rem;
+  list-style: none; margin: 0; padding: 0;
+}
+body > header nav a {
+  display: flex; align-items: center; min-height: 44px; /* touch target */
+  padding: 0 0.9rem; border-radius: 999px;
+  color: var(--text); text-decoration: none;
+  transition: background 0.2s var(--ease), color 0.2s var(--ease);
+}
+body > header nav a:hover,
+body > header nav a[aria-current="page"] { background: var(--accent-soft); color: var(--accent); }
+
+/* hero action buttons */
+main a[href$="projects.html"], main a[href$="about.html"], main a[href$="resume.html"], main a[href$="contact.html"], .btn {
+  display: inline-flex; align-items: center; justify-content: center;
+  min-height: 44px; padding: 0.5rem 1.25rem; margin: 0.25rem 0.4rem 0.25rem 0;
+  border: 2px solid var(--accent); border-radius: 999px;
+  text-decoration: none; font-weight: 600;
+  background: transparent; color: var(--accent);
+  transition: transform 0.2s var(--ease), background 0.2s var(--ease), color 0.2s var(--ease), box-shadow 0.2s var(--ease);
+}
+main a[href$="projects.html"]:first-of-type, .btn-primary {
+  background: linear-gradient(135deg, var(--accent), color-mix(in srgb, var(--accent) 60%, #8a5cff));
+  color: var(--accent-contrast); border-color: transparent;
+}
+main a[href$="projects.html"]:hover, main a[href$="about.html"]:hover,
+main a[href$="resume.html"]:hover, main a[href$="contact.html"]:hover, .btn:hover {
+  transform: translateY(-2px); box-shadow: 0 8px 20px rgb(37 87 214 / 0.3);
+}
+
+/* footer */
+body > footer {
+  display: flex; flex-direction: column; align-items: center; gap: 1rem; text-align: center;
+  padding: var(--space);
+  background: var(--surface-2); border-top: 1px solid var(--border);
+  color: var(--text-muted);
+}
+body > footer ul { display: flex; flex-wrap: wrap; justify-content: center; gap: 1rem; list-style: none; margin: 0; padding: 0; }
+
+/* ---------- 5. ADVANCED CSS3 EFFECTS ---------- */
+main > section:first-of-type h1 {
+  background: linear-gradient(120deg, var(--text) 30%, var(--accent));
+  -webkit-background-clip: text; background-clip: text;
+  -webkit-text-fill-color: transparent; color: transparent;
+}
+main > section:first-of-type {
+  position: relative; isolation: isolate;
+  padding: var(--space);
+  border-radius: calc(var(--radius) * 1.5);
+  background:
+    radial-gradient(circle at 85% 10%, var(--accent-soft), transparent 55%),
+    var(--surface);
+  border: 1px solid var(--border);
+  box-shadow: var(--shadow);
+}
+
+/* one deliberate page-load animation */
+@keyframes rise { from { opacity: 0; transform: translateY(16px); } to { opacity: 1; transform: none; } }
+main > section:first-of-type { animation: rise 0.7s var(--ease) both; }
+
+/* theme toggle button (injected by theme.js) */
+.theme-toggle {
+  display: inline-flex; align-items: center; justify-content: center; gap: 0.4rem;
+  min-width: 44px; min-height: 44px; padding: 0 0.9rem;
+  font: inherit; font-weight: 600; cursor: pointer;
+  color: var(--text); background: var(--surface-2);
+  border: 1px solid var(--border); border-radius: 999px;
+  transition: background 0.2s var(--ease), transform 0.2s var(--ease);
+}
+.theme-toggle:hover { background: var(--accent-soft); transform: scale(1.05); }
+
+/* ---------- 6. MOBILE-FIRST MEDIA QUERIES ---------- */
+/* base styles above = phones. Collapsible nav on small screens: */
+body > header nav { display: none; flex-basis: 100%; }
+body > header nav.is-open { display: block; }
+.menu-toggle, body > header button[aria-controls] { min-height: 44px; min-width: 44px; }
+
+/* Tablet ≥ 600px */
+@media (min-width: 37.5em) {
+  main section:has(> article), main section:has(> div > article) { grid-template-columns: repeat(2, 1fr); }
+  body > footer { flex-direction: row; justify-content: space-between; text-align: left; }
+}
+
+/* Desktop ≥ 900px */
+@media (min-width: 56.25em) {
+  body > header nav { display: block; flex-basis: auto; }
+  body > header nav ul { flex-direction: row; }
+  .menu-toggle, body > header button[aria-controls] { display: none; }
+  main section:has(> article), main section:has(> div > article) { grid-template-columns: repeat(3, 1fr); }
+  main > section:first-of-type { padding: calc(var(--space) * 2); }
+}
+
+/* Large ≥ 1200px */
+@media (min-width: 75em) {
+  :root { --max-width: 80rem; }
+}
+
+/* User preferences */
+@media (prefers-reduced-motion: reduce) {
+  *, *::before, *::after { animation: none !important; transition: none !important; scroll-behavior: auto !important; }
+}
+@media print {
+  body > header, body > footer, .theme-toggle { display: none; }
+  body { background: #fff; color: #000; }
+}
