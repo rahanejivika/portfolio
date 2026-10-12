@@ -1,0 +1,99 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Contact Jivika — Web Developer Portfolio</title>
+  <meta name="description" content="Get in touch with Jivika about web development projects, collaboration, or opportunities.">
+  <meta name="author" content="Jivika Rahane">
+  <meta name="robots" content="index, follow">
+  <meta name="color-scheme" content="light dark">
+  <meta property="og:title" content="Contact Jivika">
+  <meta property="og:description" content="Get in touch about web development projects or opportunities.">
+  <meta property="og:type" content="website">
+  <meta property="og:url" content="contact.html">
+  <meta property="og:image" content="assets/og-image.png">
+  <meta name="twitter:card" content="summary_large_image">
+  <script>try{var t=localStorage.getItem("theme");if(t)document.documentElement.setAttribute("data-theme",t)}catch(e){}</script>
+  <link rel="stylesheet" href="css/style.css">
+</head>
+<body>
+  <a class="skip-link" href="#main-content">Skip to main content</a>
+
+  <header class="site-header">
+    <a class="brand" href="index.html"><span aria-hidden="true">&lt;/&gt;</span> Jivika</a>
+    <button class="menu-toggle" type="button" aria-expanded="false" aria-controls="site-nav">&#9776; Menu</button>
+    <nav id="site-nav" class="site-nav" aria-label="Main navigation">
+      <ul>
+        <li><a href="index.html">Home</a></li>
+        <li><a href="about.html">About</a></li>
+        <li><a href="projects.html">Projects</a></li>
+        <li><a href="contact.html" aria-current="page">Contact</a></li>
+        <li><a href="resume.html">Resume</a></li>
+      </ul>
+    </nav>
+    <button class="theme-toggle" type="button" aria-label="Switch colour theme">&#127769; Dark</button>
+  </header>
+
+  <main id="main-content">
+    <section class="page-head" aria-labelledby="page-title">
+      <p class="eyebrow">contact</p>
+      <h1 id="page-title">Let's Connect</h1>
+      <p class="lead">Have a question, opportunity, project idea, or just want to get in touch? Feel free to send me a message.</p>
+    </section>
+
+    <section class="split split--contact">
+      <div aria-labelledby="open-title">
+        <h2 id="open-title">Open to Opportunities</h2>
+        <p>I'm currently pursuing Computer Engineering and exploring opportunities to learn, build, and grow. Feel free to reach out for internships, collaborations, projects, or any professional opportunities.</p>
+        <ul class="contact-list">
+          <li><a href="mailto:jivikarahane2208@gmail.com"><span class="contact-list__icon" aria-hidden="true">@</span><span><strong>Email</strong><br>jivikarahane2208@gmail.com</span></a></li>
+          <li><a href="https://www.linkedin.com/in/jivika-rahane-b68531363/" target="_blank" rel="noopener noreferrer"><span class="contact-list__icon" aria-hidden="true">in</span><span><strong>LinkedIn</strong><br>linkedin.com/in/jivika-rahane-b68531363</span></a></li>
+          <li><a href="https://github.com/jivikarahane" target="_blank" rel="noopener noreferrer"><span class="contact-list__icon" aria-hidden="true">&lt;/&gt;</span><span><strong>GitHub</strong><br>github.com/jivikarahane</span></a></li>
+        </ul>
+      </div>
+
+      <form id="contact-form" class="form card" novalidate>
+        <div class="hp" aria-hidden="true"><label>Leave this field empty <input type="text" name="website" tabindex="-1" autocomplete="off"></label></div>
+        <div class="field">
+          <label for="name">Full name <span aria-hidden="true">*</span></label>
+          <input id="name" name="name" type="text" autocomplete="name" required aria-describedby="name-err">
+          <p class="error" id="name-err" role="alert"></p>
+        </div>
+        <div class="field">
+          <label for="email">Email <span aria-hidden="true">*</span></label>
+          <input id="email" name="email" type="email" autocomplete="email" required aria-describedby="email-err">
+          <p class="error" id="email-err" role="alert"></p>
+        </div>
+        <div class="field">
+          <label for="subject">Subject <span aria-hidden="true">*</span></label>
+          <input id="subject" name="subject" type="text" required aria-describedby="subject-err">
+          <p class="error" id="subject-err" role="alert"></p>
+        </div>
+        <div class="field">
+          <label for="message">Message <span aria-hidden="true">*</span></label>
+          <textarea id="message" name="message" rows="5" required minlength="10" aria-describedby="message-hint message-err"></textarea>
+          <p class="hint" id="message-hint">Minimum 10 characters.</p>
+          <p class="error" id="message-err" role="alert"></p>
+        </div>
+        <button class="btn btn--primary" type="submit">Send message</button>
+        <p class="form-status" id="form-status" role="status" aria-live="polite"></p>
+      </form>
+    </section>
+  </main>
+
+  <footer class="site-footer">
+    <p>&copy; 2026 Jivika. Built with semantic HTML5 &amp; hosted on GitHub Pages.</p>
+    <nav aria-label="Footer navigation">
+      <ul>
+        <li><a href="index.html">Home</a></li>
+        <li><a href="about.html">About</a></li>
+        <li><a href="projects.html">Projects</a></li>
+        <li><a href="resume.html">Resume</a></li>
+      </ul>
+    </nav>
+  </footer>
+
+  <script src="js/main.js"></script>
+</body>
+</html>
